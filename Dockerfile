@@ -1,4 +1,4 @@
-FROM openjdk:11-jdk
+FROM openjdk:11-jdk-slim
 MAINTAINER Oleg Nenashev <o.v.nenashev@gmail.com>
 
 ARG VERSION=3.36
@@ -14,7 +14,7 @@ LABEL Description="This is a base image, which provides the Jenkins agent execut
 ARG AGENT_WORKDIR=/home/${user}/agent
 
 RUN echo 'deb http://deb.debian.org/debian stretch-backports main' > /etc/apt/sources.list.d/stretch-backports.list &&\
-    apt-get update && apt-get install git-lfs && rm -rf /var/lib/apt/lists/* &&\
+    apt-get update && apt-get -y --no-install-recommends install curl git-lfs && rm -rf /var/lib/apt/lists/* &&\
     curl --create-dirs -fsSLo /usr/share/jenkins/agent.jar https://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/${VERSION}/remoting-${VERSION}.jar \
   && chmod 755 /usr/share/jenkins \
   && chmod 644 /usr/share/jenkins/agent.jar \
@@ -33,7 +33,7 @@ USER root
 COPY jenkins-agent /usr/local/bin/jenkins-agent
 
 RUN apt-get update &&\
-    apt-get -y install python3 &&\
+    apt-get -y --no-install-recommends install python3 python3-distutils &&\
     curl -O https://bootstrap.pypa.io/get-pip.py &&\
     python3 get-pip.py &&\
     pip3 install awscli --upgrade &&\
