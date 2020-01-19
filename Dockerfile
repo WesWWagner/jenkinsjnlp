@@ -35,7 +35,11 @@ WORKDIR /home/${user}
 USER root
 COPY jenkins-agent /usr/local/bin/jenkins-agent
 
-RUN chmod +x /usr/local/bin/jenkins-agent &&\
+RUN apt-get install python3 &&\
+    curl -O https://bootstrap.pypa.io/get-pip.py &&\
+    python3 get-pip.py &&\
+    pip3 install awscli --upgrade &&\
+    chmod +x /usr/local/bin/jenkins-agent &&\
     ln -s /usr/local/bin/jenkins-agent /usr/local/bin/jenkins-slave
 USER ${user}
 
