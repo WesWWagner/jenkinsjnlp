@@ -1,2 +1,1 @@
-# jenkinsjnlp
-Jenkins JNLP custom docker
+# jnlpnode
