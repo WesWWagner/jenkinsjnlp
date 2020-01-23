@@ -33,13 +33,15 @@ USER root
 COPY jenkins-agent /usr/local/bin/jenkins-agent
 
 RUN apt-get update &&\
-    apt-get -y --no-install-recommends install python3 python3-distutils &&\
+    apt-get -y --no-install-recommends install python3 python3-distutils gnupg2 ansible &&\
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367 &&\
+    apt-get -y --no-install-recommends install ansible &&\
     curl -O https://bootstrap.pypa.io/get-pip.py &&\
     python3 get-pip.py &&\
     pip3 install awscli --upgrade &&\
-    rm -rf /var/lib/apt/lists/* &&\
     chmod +x /usr/local/bin/jenkins-agent &&\
-    ln -s /usr/local/bin/jenkins-agent /usr/local/bin/jenkins-slave
+    ln -s /usr/local/bin/jenkins-agent /usr/local/bin/jenkins-slave &&\
+    rm -rf /var/lib/apt/lists/* 
 USER ${user}
 
 ENTRYPOINT ["jenkins-agent"]
