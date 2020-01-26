@@ -38,10 +38,11 @@ RUN apt-get update &&\
     apt-get -y --no-install-recommends install ansible &&\
     curl -O https://bootstrap.pypa.io/get-pip.py &&\
     python3 get-pip.py &&\
-    pip3 install ansible --upgrade &&\
     pip3 install awscli --upgrade &&\
     pip3 install boto3 --upgrade &&\
     pip3 install boto --upgrade &&\
+    pip3 install request --upgrade &&\
+    pip3 install git+https://github.com/WesWWagner/ansible.git@stable-2.9 && \
     chmod +x /usr/local/bin/jenkins-agent &&\
     ln -s /usr/local/bin/jenkins-agent /usr/local/bin/jenkins-slave &&\
     rm -rf /var/lib/apt/lists/* 
